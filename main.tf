@@ -1,9 +1,9 @@
 module "mynetwork" {
-  source   = "./network"
-  cidr     = var.vpc_cidr
-  sub_pub  = var.sub_public
-  azs      = var.availability_zones
-  sub_priv = var.sub_private
+  source             = "./network"
+  vpc_cidr           = var.vpc_cidr
+  pub_subnet         = var.sub_public
+  priv_subnet        = var.sub_private
+  availability_zones = var.availability_zones
 }
 
 module "mycluster" {

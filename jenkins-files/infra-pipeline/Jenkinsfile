@@ -1,6 +1,7 @@
 pipeline {
     agent any
         environment {
+        // setting aws credentials
         AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     }
@@ -8,6 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Get some code from a GitHub repository
                 git branch: 'main', url: 'https://github.com/mennahasan7/final-project.git'
         }
         }
@@ -32,11 +34,11 @@ pipeline {
     }
     post {
         success {
-            echo "Build succeeded!"
+            // trigger the second pipeline
             build job: 'deployment'
         }
         failure {
-            echo "Build failed!"
+            echo "Failed!!"
         }
     }
     

@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    environment {
+        // setting aws credentials
+        AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+        AWS_DEFAULT_REGION = "us-east1"
+    }
+
+    stages {
+        stage('ci') {
+            steps {
+                
+
+                // Get some code from a GitHub repository
+                git branch: 'main', url: 'https://github.com/mennahasan7/final-project.git'
+                
+                // authenticate with aws ecr
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 017520465419.dkr.ecr.us-east-1.amazonaws.com "   
+                
+                // build and push the app image
+                sh "docker build -t images-Repository ./hello-app"
+                sh "docker tag images-Repository:app 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-Repository:app"
+                sh "docker push 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-Repository:app"
+            }
+
+        }
+        stage('cd'){
+            steps{
+                  sh """
+                  // authenticate with aws eks
+                  aws eks --region "us-east-1" update-kubeconfig --name project-eks
+
+                  // deploy the app on eks cluster
+                  kubectl apply -f ./hello-app/deployment.yaml 
+                  kubectl apply -f ./hello-app/service.yaml 
+                  """
+            }
+
+        }
+    }
+}
