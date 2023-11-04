@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "cluster-node-group" {
   cluster_name    = aws_eks_cluster.project-eks.name
   node_group_name = "cluster-node-group"
   node_role_arn   = aws_iam_role.node-group-role.arn
-  subnet_ids      = module.mynetwork.private_subnets[*].id
+  subnet_ids      = var.node_group_subnet_ids
   #  Configuration block with scaling settings
   scaling_config {
     desired_size = 2
