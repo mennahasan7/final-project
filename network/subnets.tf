@@ -8,8 +8,8 @@ resource "aws_subnet" "public_subnet" {
 
   tags = {
     Name = "project-public-subnet"
-    "kubernetes.io/role/elb"     = "1"
-    "kubernetes.io/cluster/project-eks" = "owned" 
+    "kubernetes.io/role/elb"     = "1" //This tag is used by the EKS service to identify and manage subnets used for ELB resources associated with the cluster.
+    "kubernetes.io/cluster/project-eks" = "owned" //This tag assists in identifying and managing resources related to a particular EKS cluster.
   }
 }
 
