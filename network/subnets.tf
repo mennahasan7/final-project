@@ -7,7 +7,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = "true"
 
   tags = {
-    Name = "public-subnet"
+    Name = "project-public-subnet"
     "kubernetes.io/role/elb"     = "1"
     "kubernetes.io/cluster/project-eks" = "owned" 
   }
@@ -21,7 +21,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = var.priv_subnet[count.index]
 
   tags = {
-    Name = "private_subnet"
+    Name = "project-private-subnet"
     "kubernetes.io/role/internal-elb" = "1"
     "kubernetes.io/cluster/project-eks"      = "owned"
   }
