@@ -5,6 +5,14 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     }
+    parameters {
+        choice(
+            // define two actions to choose from
+            name: 'TerraformAction',
+            choices: ['apply','destroy'],
+            description: 'Select the terraform action to apply or to destroy infrastructure'
+        )
+    }
 
     stages {
         stage('Checkout') {
@@ -23,10 +31,19 @@ pipeline {
             }
         }
 
-        stage('Terraform Apply') {
+        stage('Terraform action') {
             steps {
                 script {
-                    sh "terraform apply -auto-approve"
+                    def action = params.TerraformAction
+                    if (action == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                        } 
+                    else if (action == 'destroy') {
+                        sh 'terraform destroy -auto-approve'
+                        }
+                    else {
+                         error("Invalid choice for 'TerraformCommand' parameter. Expected 'apply' or 'destroy', but got '${action}'")
+                        }
                 }
             }
         }
@@ -34,11 +51,15 @@ pipeline {
     }
     post {
         success {
-            // trigger the second pipeline
-            build job: 'deployment'
+            script {
+                // trigger the second pipeline at terraform apply
+                if (params.TerraformAction == 'apply') {
+                    build job: 'deployment'
+                }
+            }
         }
         failure {
-            echo "Failed!!"
+            echo "build Failed!!"
         }
     }
     
