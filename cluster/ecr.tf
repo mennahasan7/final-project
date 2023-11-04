@@ -1,6 +1,6 @@
 # Create an Elastic Container Registry Repository
-resource "aws_ecr_repository" "imagesRepository" {
-  name                 = "imagesRepository"
+resource "aws_ecr_repository" "images-repository" {
+  name                 = "images-repository"
   # allow image tags to be overwritten
   image_tag_mutability = "MUTABLE"
 

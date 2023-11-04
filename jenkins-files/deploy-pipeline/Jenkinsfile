@@ -19,9 +19,9 @@ pipeline {
                 sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 017520465419.dkr.ecr.us-east-1.amazonaws.com "   
                 
                 // build and push the app image
-                sh "docker build -t imagesRepository ./hello-app"
-                sh "docker tag imagesRepository:app 017520465419.dkr.ecr.us-east-1.amazonaws.com/imagesRepository:app"
-                sh "docker push 017520465419.dkr.ecr.us-east-1.amazonaws.com/imagesRepository:app"
+                sh "docker build -t images-repository ./hello-app"
+                sh "docker tag images-repository:app 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-repository:app"
+                sh "docker push 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-repository:app"
             }
 
         }
