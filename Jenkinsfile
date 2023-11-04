@@ -33,7 +33,7 @@ pipeline {
     post {
         success {
             echo "Build succeeded!"
-            build job: 'deployment pipeline'
+            build job: 'deployment'
         }
         failure {
             echo "Build failed!"
