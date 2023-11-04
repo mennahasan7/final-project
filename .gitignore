@@ -1,5 +1,1 @@
-*.keys*
 *.terraform*
-terraform-key2.pem
-ec2*
-security*

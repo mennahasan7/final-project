@@ -3,16 +3,6 @@ variable "vpc_cidr" {
   type        = string
 }
 
-variable "ami_id" {
-  description = "AMI ID for instances"
-  type        = string
-}
-
-variable "instance_type" {
-  description = "instance type for instances"
-  type        = string
-}
-
 variable "sub_public" {
   description = "CIDR blocks for the public subnets"
   type        = list(any)
@@ -31,20 +21,5 @@ variable "sub_private" {
 variable "region" {
   description = "The AWS region"
   type        = string
-}
-
-variable "node_group_ami_type" {
-  description = "AMI ID for node group instances"
-  type        = string
-}
-
-variable "node_group_capacity_type" {
-  description = "Capacity type for node group instances"
-  type        = string
-}
-
-variable "node_group_instance_types" {
-  description = "instance types associated with the EKS Node Group"
-  type        = list(any)
 }
 
