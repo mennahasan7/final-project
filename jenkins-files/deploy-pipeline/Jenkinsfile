@@ -20,18 +20,18 @@ pipeline {
                 
                 // build and push the app image
                 sh "docker build -t images-repository ./hello-app"
-                sh "docker tag images-repository:app 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-repository:app"
+                sh "docker tag images-repository 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-repository:app"
                 sh "docker push 017520465419.dkr.ecr.us-east-1.amazonaws.com/images-repository:app"
             }
 
         }
         stage('cd'){
             steps{
-                  sh """
                   // authenticate with aws eks
-                  aws eks --region "us-east-1" update-kubeconfig --name project-eks
+                  sh 'aws eks --region "us-east-1" update-kubeconfig --name project-eks'
 
                   // deploy the app on eks cluster
+                  sh """
                   kubectl apply -f ./hello-app/deployment.yaml 
                   kubectl apply -f ./hello-app/service.yaml 
                   """
