@@ -55,7 +55,13 @@ pipeline {
                 // trigger the second pipeline at terraform apply
                 if (params.TerraformAction == 'apply') {
                     build job: 'deployment'
-                }
+                    }
+                else if (params.TerraformAction == 'destroy') {
+                    sh 'echo "destroying succeeded"'
+                    }
+                else {
+                    error("Invalid choice for 'TerraformCommand' parameter. Expected 'apply' or 'destroy', but got '${action}'")
+                    }
             }
         }
         failure {
